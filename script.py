@@ -1,9 +1,13 @@
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
 from time import sleep
 import urllib.request as u
 import smtplib
 import csv
+
 
 # Scrape the main search results page
 # Here we're getting the link to the details page
@@ -42,7 +46,8 @@ def gather_listing_data(urlList):
 		contactInfo['address'] = get_email(url)
 		contactInfo['title'] = listing_title.contents[0]
 		contactInfo['message'] = 'Hello I was wondering if the job was still avaible, if so my resume is attached below'
-
+		contactInfo['message'].attach(MIMEText(file("./resume.pdf").read()))
+		
 		contact.append(contactInfo)
 		print(contact)
 	return contact
